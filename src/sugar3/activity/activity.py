@@ -295,7 +295,7 @@ class Activity(Window, Gtk.Container):
 
         self.connect('realize', self.__realize_cb)
         self.connect('delete-event', self.__delete_event_cb)
-	self.connect("key-press-event", self.keypress)
+        self.connect("key-press-event", self.keypress)
 
         self._active = False
         self._activity_id = handle.activity_id
@@ -644,30 +644,30 @@ class Activity(Window, Gtk.Container):
                 Gdk.ModifierType.CONTROL_MASK
 
         if control:
-	    if keyname == "1" or keyname == "KP_1":
-		self.get_screenshot()
+            if keyname == "1" or keyname == "KP_1":
+                self.get_screenshot()
 
     def get_screenshot(self):
-	tmp_dir = os.path.join(env.get_profile_path(), 'data')
-	fd, file_path = tempfile.mkstemp(dir=tmp_dir)
-	os.close(fd)
+        tmp_dir = os.path.join(env.get_profile_path(), 'data')
+        fd, file_path = tempfile.mkstemp(dir=tmp_dir)
+        os.close(fd)
 
-	client = GConf.Client.get_default()
-	icon_color = client.get_string('/desktop/sugar/user/color')
+        client = GConf.Client.get_default()
+        icon_color = client.get_string('/desktop/sugar/user/color')
 
         alloc = self.canvas.get_allocation()
-	canvas_width, canvas_height = alloc.width, alloc.height
-	screenshot_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+        canvas_width, canvas_height = alloc.width, alloc.height
+        screenshot_surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
                           canvas_width, canvas_height)
 
-	cr = cairo.Context(screenshot_surface)
-	self._canvas.draw(cr)
-	screenshot_surface.write_to_png(file_path)
+        cr = cairo.Context(screenshot_surface)
+        self._canvas.draw(cr)
+        screenshot_surface.write_to_png(file_path)
 
-	jobject = datastore.create()
-	try:
-	    title = "%s Canvas Screenshot" % get_bundle_name()
-	    jobject.metadata['title'] = title
+        jobject = datastore.create()
+        try:
+            title = "%s Canvas Screenshot" % get_bundle_name()
+            jobject.metadata['title'] = title
             jobject.metadata['keep'] = '0'
             jobject.metadata['buddies'] = ''
             jobject.metadata['preview'] = self.get_preview()
